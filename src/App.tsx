@@ -18,23 +18,23 @@ function App() {
       <header>
         <h1>Book Library</h1>
 
-        <form action="post">
-          <div className='bookname'>
+        <form action="post" className='flex'>
+          <div className='bookname flex'>
             <label htmlFor="bookname-input">Book</label>
             <input type="text" id='bookname-input' />
           </div>
 
-          <div className='author'>
+          <div className='author flex'>
             <label htmlFor="author-input">Author</label>
             <input type="text" id='author-input' />
           </div>
 
-          <div className='pages'>
+          <div className='pages flex'>
             <label htmlFor="pages-input">Pages</label>
             <input type="number" id='pages-input' />
           </div>
 
-          <div className='status'>
+          <div className='status flex'>
             <label htmlFor="status-input">Status</label>
             <select name="status" id="status-input">
               <option value="read">Read</option>
@@ -42,7 +42,7 @@ function App() {
             </select>
           </div>
 
-          <input type="submit" onClick={addBook} />
+          <input type="submit" className='add-book' onClick={addBook} />
         </form>
       </header>
 
