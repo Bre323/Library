@@ -76,6 +76,12 @@ function App() {
       }
       else {
         setLibrary(prevLibrary => [...prevLibrary, bookInfo]);
+        setBookInfo({
+          name: '',
+          author: '',
+          pages: 0,
+          status: 'Not read'
+        });
       }
     }
   }
