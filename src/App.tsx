@@ -16,12 +16,11 @@ function App() {
     name: '',
     author: '',
     pages: 0,
-    status: 'not-read'
+    status: 'Not read'
   });
 
 
   useEffect(() => {
-    console.log(library);
     renderBooks(library);
   });
 
@@ -46,18 +45,26 @@ function App() {
       let bookCardButton = document.createElement('button');
 
       bookCard.insertAdjacentHTML('beforeend', `
-      <h2>${lib[i].name}</h2>
-      <h3>${lib[i].author}</h3>
-      <p>${lib[i].pages}</p>
-      <p>${lib[i].status}</p>
+      <div class="card-title">
+        <h2>${lib[i].name}</h2>
+        <h3>${lib[i].author}</h3>
+      </div>
+      <div class="card-info flex">
+        <p>Pages: ${lib[i].pages}</p>
+        <button class='card-button' id='${bookId}-button'>${lib[i].status}</button>
+      </div>
       `);
 
       bookCard.setAttribute('class', 'book-card');
       bookCard.setAttribute('id', `${bookId}`);
       bookCardButton.innerText = 'Delete';
+      bookCardButton.setAttribute('class', 'card-button delete');
       bookCardButton.addEventListener('click', () => { removeBook(bookId) });
       bookCard.appendChild(bookCardButton);
       mainContainer?.appendChild(bookCard);
+
+      let changeStatusButton = document.getElementById(`${bookId}-button`);
+      changeStatusButton?.addEventListener('click', () => { changeStatus(bookId) });
     }
   }
 
@@ -78,41 +85,52 @@ function App() {
     setLibrary(library.filter(() => newLibrary));
   }
 
+  const changeStatus = (bookId: number) => {
+    let bookStatusText = document.getElementById(`${bookId}-button`);
+
+    if(bookStatusText?.innerHTML === 'Not read') {
+      bookStatusText.innerHTML = 'Read';
+    }
+    else if(bookStatusText?.innerHTML === 'Read') {
+      bookStatusText.innerHTML = 'Not read';
+    }
+  }
+
 
   return (
     <>
       <header>
-        <h1>Book Library</h1>
+        <h1>Library</h1>
 
         <div className='header-container flex'>
-          <div className='bookname flex'>
+          <div className='book-input-div flex'>
             <label htmlFor="bookname-input">Book</label>
             <input type="text" id='bookname-input' name='name' value={bookInfo.name} onChange={handleChange} required />
           </div>
 
-          <div className='author flex'>
+          <div className='book-input-div flex'>
             <label htmlFor="author-input">Author</label>
             <input type="text" id='author-input' name='author' value={bookInfo.author} onChange={handleChange} required />
           </div>
 
-          <div className='pages flex'>
+          <div className='book-input-div flex'>
             <label htmlFor="pages-input">Pages</label>
             <input type="number" min="0" max="10000" id='pages-input' name='pages' value={bookInfo.pages} onChange={handleChange} required />
           </div>
 
-          <div className='status flex'>
+          <div className='book-input-div flex'>
             <label htmlFor="status-input">Status</label>
             <select id="status-input" name="status" value={bookInfo.status} onChange={handleChange} required >
-              <option value="read" defaultValue="read">Read</option>
-              <option value="not-read">Not Read</option>
+              <option value="Read" defaultValue="Read">Read</option>
+              <option value="Not read">Not Read</option>
             </select>
           </div>
 
-          <input type="submit" className='add-book' onClick={addBook} />
+          <button className='add-book' onClick={addBook}>Submit</button>
         </div>
       </header>
 
-      <main id='main-container'></main>
+      <main id='main-container' className='flex'></main>
     </>
   )
 }
